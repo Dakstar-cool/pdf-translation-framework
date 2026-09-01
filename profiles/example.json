@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "project": {
+    "id": "example-document",
+    "source_pdf": "../source/document.pdf",
+    "workspace": "../workspace/example-document",
+    "release_dir": "../release/example-document"
+  },
+  "document": {
+    "expected_sha256": null,
+    "expected_pages": null,
+    "extract_tables": true
+  },
+  "translation": {
+    "source_language": "English",
+    "target_language": "Russian",
+    "prompt_template": "Translate the following {source_language} text into complete professional {target_language}. Preserve every placeholder exactly. Return only the translation.",
+    "glossary": "glossary.example.tsv",
+    "primary": {
+      "kind": "openai_chat",
+      "endpoint": "http://127.0.0.1:18089/v1/chat/completions",
+      "model": "translategemma-4b",
+      "timeout_seconds": 300,
+      "max_tokens": 2048,
+      "temperature": 0.0,
+      "seed": 1,
+      "api_key_env": null
+    },
+    "fallback": {
+      "kind": "openai_chat",
+      "endpoint": "http://127.0.0.1:18090/v1/chat/completions",
+      "model": "translategemma-12b",
+      "timeout_seconds": 600,
+      "max_tokens": 4096,
+      "temperature": 0.0,
+      "seed": 1,
+      "api_key_env": null
+    }
+  },
+  "validation": {
+    "protect_numbers": true,
+    "protect_units": true,
+    "protect_intervals": true,
+    "negation_mode": "count",
+    "source_negation_patterns": [
+      "\\b(?:no|not|never|without|contraindicated|prohibited)\\b"
+    ],
+    "target_negation_patterns": [
+      "\\b(?:не|нет|никогда|без|противопоказ\\w*|запрещ\\w*)\\b"
+    ],
+    "unit_pattern": "\\b(?:pg|ng|mcg|µg|μg|ug|mg|g|kg|oz|lb|mL|ml|dL|L|IU|mIU|U|mEq|Eq|mmol|µmol|umol|mol|ppm|ppb|mmHg|cmH2O|cm|mm|µm|um|m|sec|min|hr|h|day|wk|week|mo)\\b",
+    "interval_pattern": "\\b(?:q\\s*\\d+(?:\\s*[-–—]\\s*\\d+)?\\s*(?:h|hr|d)|SID|BID|TID|QID|PRN)\\b"
+  }
+}
